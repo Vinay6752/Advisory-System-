@@ -1,0 +1,16 @@
+def get_weather(lat , lon):
+    params = {"lat":lat, "lon":lon, "appid":Weather_API_KEY, "units": "metric"}
+    try:
+        r = requests.get(WEATHER_URL, params=params, timeout=10)
+        data = r.jason()
+        if data.get("cod") != 200:
+            return None
+        return{
+            "temp":data["main"]["temp"],
+            "humidity":data["main"]["humidity"],
+            "weather" : data["weather"][0]["description"]       
+            }
+    except Exception as e:
+        print("Weather API error:",e)
+        return None
+    
