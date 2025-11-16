@@ -1,16 +1,33 @@
-def get_weather(lat , lon):
-    params = {"lat":lat, "lon":lon, "appid":Weather_API_KEY, "units": "metric"}
+import requests
+
+def get_weather(lat, lon):
+    API_KEY = "bbe5b8551bc37b31ccb02f8922015910"   # <-- put your actual key
+
+    params = {
+        "lat": lat,
+        "lon": lon,
+        "units": "metric",
+        "appid": API_KEY
+    }
+
     try:
-        r = requests.get(WEATHER_URL, params=params, timeout=10)
-        data = r.jason()
-        if data.get("cod") != 200:
+        r = requests.get("https://api.openweathermap.org/data/3.0/onecall", params=params, timeout=10)
+        data = r.json()
+
+        current = data.get("current")
+        if current is None:
             return None
-        return{
-            "temp":data["main"]["temp"],
-            "humidity":data["main"]["humidity"],
-            "weather" : data["weather"][0]["description"]       
-            }
+
+        return {
+            "temp": current.get("temp"),
+            "humidity": current.get("humidity"),
+            "weather": current.get("weather", [{}])[0].get("description")
+        }
+
     except Exception as e:
-        print("Weather API error:",e)
+        print("Weather API error:", e)
         return None
-    
+
+
+# ✅ CALL THE FUNCTION (THIS PRODUCES OUTPUT)
+print(get_weather(28.6139, 77.2090))   # Delhi
