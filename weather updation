@@ -1,7 +1,7 @@
 import requests
 
 def get_weather(lat, lon):
-    API_KEY = "bbe5b8551bc37b31ccb02f8922015910"   # <-- put your actual key
+    API_KEY = "bbe5b8551bc37b31ccb02f8922015910"  
 
     params = {
         "lat": lat,
